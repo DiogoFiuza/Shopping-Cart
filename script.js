@@ -26,8 +26,22 @@ function createCustomElement(element, className, innerText) {
   const e = document.createElement(element);
   e.className = className;
   e.innerText = innerText;
+  if (element === 'button') {
+    e.addEventListener('click', buttonAdd);
+  }
   return e;
 }
+
+const buttonAdd = () => {
+  const API = 'https://api.mercadolibre.com/items/MLB1341706310';
+  fetch(API)
+    .then((json) => json.json())
+    .then((e) => createCartItemElement({ 
+      sku: e.id,
+      name: e.title,
+      salePrice: e.price,
+     }));
+};
 
 // Cria os produtos
 function createProductItemElement({ sku, name, image }) {
@@ -50,14 +64,27 @@ function createProductItemElement({ sku, name, image }) {
 //   // coloque seu código aqui
 // }
 
-// function createCartItemElement({ sku, name, salePrice }) {
-//   const li = document.createElement('li');
-//   li.className = 'cart__item';
-//   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-//   li.addEventListener('click', cartItemClickListener);
-//   return li;
-// }
+function createCartItemElement({ sku, name, salePrice }) {
+  const li = document.createElement('li');
+  const ol = document.querySelector('.cart__items');
+  li.className = 'cart__item';
+  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+  ol.appendChild(li);
+  // li.addEventListener('click', cartItemClickListener);
+  return li;
+}
 
+// Requisito 2
+// function test() {
+//   const elementos = document.getElementsByClassName('item__add');
+//   for (let index = 0; index < elementos; index += 1) {
+//     console.log("Sage");
+//   }
+//   // elementos.forEach((element) => element.addEventListener('click',));
+// }
+// test();
+
+// Requisito 1
 function products(api) {
   return fetch(api)
     .then((obj) => obj.json())
