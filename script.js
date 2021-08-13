@@ -1,4 +1,5 @@
 const URL = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
+const ol = document.querySelector('.cart__items');
 
 // Cria um array com os products
 function productAll(element) {
@@ -28,14 +29,23 @@ function cartItemClickListener(event) {
   event.target.parentNode.removeChild(event.target);
 }
 
+// Adiciona função apagar aos items da lista
+ol.addEventListener('click', cartItemClickListener);
+
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
-  const ol = document.querySelector('.cart__items');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  li.addEventListener('click', cartItemClickListener);
   ol.appendChild(li);
+  localStorage.setItem('listPcs', ol.innerHTML);
+  console.log(ol);
   return li;
+}
+
+// Adiciona no HTML os itens salvos no Storage
+function rechargeItems() {
+  const list = localStorage.getItem('listPcs');
+  ol.innerHTML = list;
 }
 
 const buttonAdd = (event) => {
@@ -74,20 +84,6 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
-// function getSkuFromProductItem(item) {
-//   return item.querySelector('span.item__sku').innerText;
-// }
-
-// Requisito 2
-// function test() {
-//   const elementos = document.getElementsByClassName('item__add');
-//   for (let index = 0; index < elementos; index += 1) {
-//     console.log("Sage");
-//   }
-//   // elementos.forEach((element) => element.addEventListener('click',));
-// }
-// test();
-
 // Requisito 1
 function products(api) {
   return fetch(api)
@@ -100,4 +96,5 @@ function products(api) {
 
 window.onload = () => {
   products(URL);
+  rechargeItems();
  };
