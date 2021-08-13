@@ -27,6 +27,7 @@ function cartItemClickListener(event) {
   // coloque seu código aqui
   // Ler sobre o acesso dos elementos em DOM/Apagar
   event.target.parentNode.removeChild(event.target);
+  localStorage.setItem('listPcs', ol.innerHTML);
 }
 
 // Adiciona função apagar aos items da lista
@@ -38,7 +39,6 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   ol.appendChild(li);
   localStorage.setItem('listPcs', ol.innerHTML);
-  console.log(ol);
   return li;
 }
 
