@@ -24,8 +24,7 @@ function createProductImageElement(imageSource) {
 
 function cartItemClickListener(event) {
   // coloque seu código aqui
-  // const ol = document.querySelector('.cart__items');
-  // ol.remove(event);
+  // Ler sobre o acesso dos elementos em DOM/Apagar
   event.target.parentNode.removeChild(event.target);
 }
 
@@ -39,8 +38,10 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-const buttonAdd = () => {
-  const API = 'https://api.mercadolibre.com/items/MLB1341706310';
+const buttonAdd = (event) => {
+  // Pesquisar sobre o parentNode e as formas de percorrer os filhos
+  const id = event.target.parentNode.firstChild.innerText;
+  const API = `https://api.mercadolibre.com/items/${id}`;
   fetch(API)
     .then((json) => json.json())
     .then((e) => createCartItemElement({ 
