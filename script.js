@@ -1,5 +1,6 @@
 const URL = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
 const ol = document.querySelector('.cart__items');
+const totalDiv = document.querySelector('.total-price');
 
 // Cria um array com os products
 function productAll(element) {
@@ -22,10 +23,26 @@ function createProductImageElement(imageSource) {
   img.src = imageSource;
   return img;
 }
+const cartPrices = [];
+const cartItems = [];
+
+// Função para incrementar preço
+function totalPrice() {
+  let sum = 0;
+  cartPrices.forEach((e) => { sum += e; });
+  totalDiv.innerText = sum;
+}
 
 function cartItemClickListener(event) {
   // coloque seu código aqui
   // Ler sobre o acesso dos elementos em DOM/Apagar
+  const text = event.target.innerText;
+  cartItems.forEach((e, i) => {
+    if (e === text) {
+      cartPrices[i] = 0;
+    }
+  });
+  totalPrice();
   event.target.parentNode.removeChild(event.target);
   localStorage.setItem('listPcs', ol.innerHTML);
 }
@@ -39,6 +56,10 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   ol.appendChild(li);
   localStorage.setItem('listPcs', ol.innerHTML);
+  // 
+  cartItems.push(li.innerText);
+  cartPrices.push(salePrice);
+  totalPrice();
   return li;
 }
 
@@ -53,7 +74,7 @@ const buttonAdd = (event) => {
   const id = event.target.parentNode.firstChild.innerText;
   const API = `https://api.mercadolibre.com/items/${id}`;
   fetch(API)
-    .then((json) => json.json())
+    .then((data) => data.json())
     .then((e) => createCartItemElement({ 
       sku: e.id,
       name: e.title,
@@ -65,6 +86,7 @@ function createCustomElement(element, className, innerText) {
   const e = document.createElement(element);
   e.className = className;
   e.innerText = innerText;
+  // Adiciona um evento aos botões dos produtos
   if (element === 'button') {
     e.addEventListener('click', buttonAdd);
   }
