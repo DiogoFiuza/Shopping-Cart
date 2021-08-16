@@ -1,6 +1,7 @@
 const URL = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
 const ol = document.querySelector('.cart__items');
 const totalDiv = document.querySelector('.total-price');
+const buttonRemove = document.querySelector('.empty-cart');
 
 // Cria um array com os products
 function productAll(element) {
@@ -47,17 +48,6 @@ function cartItemClickListener(event) {
   localStorage.setItem('listPcs', ol.innerHTML);
 }
 
-// // Requisito 6
-// // Função que apaga todos os itens
-function removeCartItens() {
-  const buttonRemove = document.querySelector('.empty-cart');
-  const listAll = document.querySelectorAll('li');
-  buttonRemove.addEventListener('click', () => {
-    listAll.forEach((e) => e.remove());
-    totalDiv.innerText = 0;
-  });
-}
-
 // Adiciona função apagar aos items da lista
 ol.addEventListener('click', cartItemClickListener);
 function createCartItemElement({ sku, name, salePrice }) {
@@ -70,7 +60,6 @@ function createCartItemElement({ sku, name, salePrice }) {
   cartItems.push(li.innerText);
   cartPrices.push(salePrice);
   totalPrice();
-  removeCartItens();
   return li;
 }
 
@@ -117,14 +106,27 @@ function createProductItemElement({ sku, name, image }) {
   return section;
 }
 
+// // Requisito 6
+// // Função que apaga todos os itens
+buttonRemove.addEventListener('click', () => {
+  ol.innerHTML = '';
+  totalDiv.innerText = 0;
+});
+const loading = document.querySelector('.loading');
 // Requisito 1
-function products(api) {
-  return fetch(api)
-    .then((obj) => obj.json())
-    .then((json) => json.results)
-    .then((newPr) => productAll(newPr))
-    .then((product) => product.forEach((obj) => 
-    addElement(createProductItemElement(obj))));
+ function products(api) {
+  // workaround
+  setTimeout(() => {
+    loading.remove();
+  }, 2000);
+  setTimeout(() => {
+    fetch(api)
+      .then((obj) => obj.json())
+      .then((json) => json.results)
+      .then((newPr) => productAll(newPr))
+      .then((product) => product.forEach((obj) => 
+      addElement(createProductItemElement(obj))));
+  }, 2100);
 }
 
 window.onload = () => {
