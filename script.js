@@ -47,9 +47,19 @@ function cartItemClickListener(event) {
   localStorage.setItem('listPcs', ol.innerHTML);
 }
 
+// // Requisito 6
+// // Função que apaga todos os itens
+function removeCartItens() {
+  const buttonRemove = document.querySelector('.empty-cart');
+  const listAll = document.querySelectorAll('li');
+  buttonRemove.addEventListener('click', () => {
+    listAll.forEach((e) => e.remove());
+    totalDiv.innerText = 0;
+  });
+}
+
 // Adiciona função apagar aos items da lista
 ol.addEventListener('click', cartItemClickListener);
-
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
@@ -60,6 +70,7 @@ function createCartItemElement({ sku, name, salePrice }) {
   cartItems.push(li.innerText);
   cartPrices.push(salePrice);
   totalPrice();
+  removeCartItens();
   return li;
 }
 
