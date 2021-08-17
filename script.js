@@ -101,7 +101,7 @@ function createProductItemElement({ sku, name, image }) {
   section.appendChild(createCustomElement('span', 'item__sku', sku));
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
-  section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
+  section.appendChild(createCustomElement('button', 'item__add', 'Comprar'));
 
   return section;
 }
@@ -112,6 +112,7 @@ buttonRemove.addEventListener('click', () => {
   ol.innerHTML = '';
   totalDiv.innerText = 0;
 });
+
 const loading = document.querySelector('.loading');
 // Requisito 1
  function products(api) {
