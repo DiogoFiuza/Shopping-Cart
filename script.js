@@ -1,4 +1,4 @@
-const URL = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
+const URL = 'https://api.mercadolibre.com/sites/MLB/search?q=game';
 const ol = document.querySelector('.cart__items');
 const totalDiv = document.querySelector('.total-price');
 const buttonRemove = document.querySelector('.empty-cart');
@@ -35,7 +35,6 @@ function totalPrice() {
 }
 
 function cartItemClickListener(event) {
-  // coloque seu código aqui
   // Ler sobre o acesso dos elementos em DOM/Apagar
   const text = event.target.innerText;
   cartItems.forEach((e, i) => {

@@ -1,6 +1,9 @@
 * {
   margin: 0%;
-  background-color: rgb(155, 155, 158);
+}
+
+body {
+  background-color: rgb(236, 235, 235);
 }
 
 .loading {
@@ -9,19 +12,20 @@
 
 header {
   display: flex;
-  background-color: black;
-  padding: 15px;
+  background-color: yellow;
+  padding: 1%;
   color: aliceblue;
   justify-content: space-between;
 }
 
 header div {
-  background-color: black;
+  background-color: transparent;
   font-size: 25px;
   font-style: bold;
   flex-direction: column;
   justify-content: baseline;
-  font-family: font-family: 'Bebas Neue', cursive;;
+  font-family: Bebas Neue, cursive;
+  color: black;
 }
 
 .container {
@@ -38,6 +42,7 @@ header div {
 }
 
 .item {
+  background-color: white;
   box-shadow: 0 0 10px black;
   border-radius: 10px;
   box-sizing: border-box;
@@ -46,7 +51,6 @@ header div {
   height: auto;
   margin: 10px;
   width: 200px;
-  justify-content: center;
 }
 
 .item .item__sku {
@@ -80,12 +84,12 @@ header div {
 }
 
 .cart {
+  background-color: rgb(236, 235, 235);
   display: flex;
   flex-basis: 30%;
   flex-flow: column wrap;
   width: 20%;
   margin-top: 2%;
-  background-color: white;
   margin-right: 5px;
 }
 
@@ -105,6 +109,11 @@ header div {
   border-radius: 5px;
 }
 
+.logo_header {
+  width: 150px;
+  background-color: transparent;
+}
+
 #btnBusca {
   width: 15px;
   color: rgb(214, 83, 83);
@@ -112,19 +121,20 @@ header div {
 }
 
 #divBusca {
-  background-color: darkslategray;
-  border: solid 1px;
-  border-radius: 15px;
+  background-color: white;
+  border: solid 1px rgb(209, 209, 209);
+  border-radius: 5px;
   width: 300px;
+  height: 25px;
 }
 
 #txtBusca {
   float: left;
-  background-color: transparent;
   padding-left: 5px;
   font-style: italic;
   font-size: 18px;
   border: none;
-  height: 32px;
+  border-radius: 5px;
+  height: 23px;
   width: 260px;
 }
