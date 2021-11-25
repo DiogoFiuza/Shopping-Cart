@@ -1,4 +1,6 @@
-const URL = 'https://api.mercadolibre.com/sites/MLB/search?q=game';
+let URL = 'https://api.mercadolibre.com/sites/MLB/search?q=game';
+const resultSearch = document.querySelector('#txtBusca');
+const buttonSearch = document.querySelector('#btnBusca');
 const ol = document.querySelector('.cart__items');
 const totalDiv = document.querySelector('.total-price');
 const buttonRemove = document.querySelector('.empty-cart');
@@ -24,31 +26,30 @@ function createProductImageElement(imageSource) {
   img.src = imageSource;
   return img;
 }
-const cartPrices = [];
-const cartItems = [];
 
-// Função para incrementar preço
-function totalPrice() {
-  let sum = 0;
-  cartPrices.forEach((e) => { sum += e; });
-  totalDiv.innerText = sum;
+// Função de somar preço dos itens do carrinho
+function soma(num) {
+  let total = parseFloat(totalDiv.innerText);
+  total += num;
+  totalDiv.innerText = total.toFixed(2);
+  localStorage.setItem('totalCart', total);
+}
+
+function subTotal(event) {
+  const price = parseFloat(event.target.innerText.split('$')[1]);
+  const total = parseFloat(totalDiv.innerHTML);
+  const result = total - price;
+  totalDiv.innerText = result.toFixed(2);
+  localStorage.setItem('totalCart', result);
 }
 
 function cartItemClickListener(event) {
-  // Ler sobre o acesso dos elementos em DOM/Apagar
-  const text = event.target.innerText;
-  cartItems.forEach((e, i) => {
-    if (e === text) {
-      cartPrices[i] = 0;
-    }
-  });
-  totalPrice();
-  event.target.parentNode.removeChild(event.target);
+  subTotal(event);
+  event.target.remove();
   localStorage.setItem('listPcs', ol.innerHTML);
 }
 
 // Adiciona função apagar aos items da lista
-ol.addEventListener('click', cartItemClickListener);
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
@@ -56,9 +57,8 @@ function createCartItemElement({ sku, name, salePrice }) {
   ol.appendChild(li);
   localStorage.setItem('listPcs', ol.innerHTML);
   // 
-  cartItems.push(li.innerText);
-  cartPrices.push(salePrice);
-  totalPrice();
+  li.addEventListener('click', cartItemClickListener); 
+  soma(salePrice);
   return li;
 }
 
@@ -66,6 +66,12 @@ function createCartItemElement({ sku, name, salePrice }) {
 function rechargeItems() {
   const list = localStorage.getItem('listPcs');
   ol.innerHTML = list;
+  const cartItem = document.querySelectorAll('.cart__item');
+  cartItem.forEach((e) => {
+    e.addEventListener('click', cartItemClickListener);
+  });
+  const total = parseFloat(localStorage.getItem('totalCart'));
+  totalDiv.innerText = total;
 }
 
 const buttonAdd = (event) => {
@@ -110,6 +116,7 @@ function createProductItemElement({ sku, name, image }) {
 buttonRemove.addEventListener('click', () => {
   ol.innerHTML = '';
   totalDiv.innerText = 0;
+  localStorage.setItem('totalCart', 0);
 });
 
 const loading = document.querySelector('.loading');
@@ -118,7 +125,7 @@ const loading = document.querySelector('.loading');
   // workaround
   setTimeout(() => {
     loading.remove();
-  }, 2000);
+  }, 1000);
   setTimeout(() => {
     fetch(api)
       .then((obj) => obj.json())
@@ -126,9 +133,21 @@ const loading = document.querySelector('.loading');
       .then((newPr) => productAll(newPr))
       .then((product) => product.forEach((obj) => 
       addElement(createProductItemElement(obj))));
-  }, 2100);
+  }, 1100);
 }
 
+// Função da barra de pesquisa
+buttonSearch.addEventListener('click', () => {
+  if (resultSearch.value) {
+    const vitrine = document.querySelector('.items');
+    vitrine.innerHTML = '';
+    URL = `https://api.mercadolibre.com/sites/MLB/search?q= ${resultSearch.value}`;
+    products(URL);
+    resultSearch.value = '';
+  }
+});
+
+// Funções acionadas quando a página for carregada
 window.onload = () => {
   products(URL);
   rechargeItems();

@@ -116,8 +116,8 @@ header div {
 
 #btnBusca {
   width: 15px;
-  color: rgb(214, 83, 83);
   margin: 2%;
+  color: grey;
 }
 
 #divBusca {
@@ -137,4 +137,16 @@ header div {
   border-radius: 5px;
   height: 23px;
   width: 260px;
+}
+
+.cart__item {
+  background-color: rgb(187, 187, 187);
+  border-radius: 5px;
+  font-size: 90%;
+  margin: 5px;
+  padding: 5px;
+}
+
+.cart__item:hover {
+  background-color: rgb(221, 220, 220);
 }
