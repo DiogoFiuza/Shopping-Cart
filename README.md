@@ -1,7 +1,6 @@
 # Shopping Cart 🛒
-
-
-<video controls="controls" width="400" src="ML.mp4"><video>
+<!-- This site was used to transform the video into this gif -->
+<img width="800" src="https://j.gifs.com/Og5DMG.gif"></img>
 <br/>
 <br/>
 
